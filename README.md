@@ -1,9 +1,9 @@
-# Mario-s
+# Mario
 
 Crear en Unity un videojuego en 2D llamado Mario. El juego es una pequeña recreación del juego
 clásico Mario Bros implementando las mecánicas básicas del mismo.
 
-Escena
+## Escena
 Para crear el fondo de escena, importaremos al proyecto el recurso stage1.png, que contiene un
 sprite que muestra las plataformas del juego y crearemos a partir de el un GameObject que
 deberemos situar en las coordenadas X=0 e Y=0, y para la Z deberemos escoger un valor que haga
@@ -16,7 +16,7 @@ caminan por encima de ellas. Además necesitaremos colisionadores verticales que
 traspasar los extremos derecho e izquierdo de la pantalla. Por razones didácticas, no obstante, estos
 colisionadores los iremos colocando a medida que nos hagan falta.
 
-Mario
+## Mario
 Para crear el personaje de Mario tenemos que importar el tilesheet mario_luigi.png, ajustar su
 filtrado para que no desdibuje los límites de los píxeles y dividirlo en los frames que contiene.
 Luego crearemos el personaje de Mario a partir de los frames que forman la animación de caminar.
@@ -59,12 +59,12 @@ comprobación de que la velocidad es pequeña y paramos a Mario en ese momento, 
 seguiría actuando y Mario empezaría a moverse en sentido contrario al que iba cuando empezó a
 frenar. Durante este período de frenada se deberá mostrar la correspondiente animación.
 
-Cámara
+## Cámara
 La cámara debe seguir a Mario cuando este se mueve, pero debe tener su movimiento limitado de
 forma que nunca se llegue a ver más allá de dónde acaban las plataformas. Este límite está situado
 en las coordenadas X -4.3 y 4.3.
 
-Tortuga
+## Tortuga
 Deberá crearse un prefab para la tortuga al que se añadirá un Rigidbody2D y un script de control
 llamado Tortuga. Previamente habremos creado la tortuga como un GameObject en la escena,
 incluyendo ya una animación de caminar, creada a partir de los frames adecuados del tilesheet
@@ -78,22 +78,14 @@ Si dos tortugas tropiezan una con otra, ambas deben darse la vuelta y continuar 
 sentido contrario a como llegaron. Para girar se pararán y ejecutarán una animación de giro, una vez
 acabada esta continuarán su movimiento y volverán a la animación de caminar.
 
-Colisión de una tortuga y Mario
+## Colisión de una tortuga y Mario
 Mario debe evitar a las tortugas. Si una de ellas lo alcanza Mario muere y se acaba el juego.
 Al morir, Mario ejecuta una animación específica y cae al vacío. Durante este tiempo en el que
 sigue visible, no responde a ningún comando del jugador.
 
-Captura de las tortugas
+## Captura de las tortugas
 El objetivo de Mario es capturar y deshacerse de las tortugas. Para ello debe golpear la plataforma
 en la que se encuentra la tortuga en el punto en el que esta se encuentra y desde debajo. La tortuga
 entonces se dará la vuelta, ejecutando la correspondiente animación y quedará panza arriba. Estando
 en este estado la tortura es inofensiva para Mario. Bien al contrario, si ahora Mario la golpea, saldrá
 disparada en la dirección en la que éste se movía y caerá hacia abajo hasta desaparecer.
-
-RECURSOS SUMINISTRADOS
-Nombre del recurso Tipo Uso / se aplica a
-mario_luigi.png Sprite/Tilesheet Sprites necesarios para las animaciones de Mario
-tortugas_verdes.png Sprite/Tilesheet Sprites necesarios para las animaciones de las tortugas
-stage1.png Sprite/Tilesheet Fondo de pantalla
-mario_bros_jump.mp3 Sonido mp3 Sonido de salto de Mario
-mario_bros_game_over.mp3 Sonido mp3 Sonido de final de juego
