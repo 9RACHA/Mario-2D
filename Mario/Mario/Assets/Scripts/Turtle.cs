@@ -9,14 +9,12 @@ public class Turtle : MonoBehaviour {
     private Vector3 velocity;
     private Animator animator;
 
-    //Propiedad que indica si la tortuga está en fase
-    //activa o no
+    // Propiedad que indica si la tortuga está en fase activa o no
     private bool activa;
-    public bool Activa { get {return activa; }}
+    public bool Activa { get { return activa; } }
 
-    // Start is called before the first frame update
     void Start() {
-        if(transform.position.x > 0) {
+        if (transform.position.x > 0) {
             movementDirection = -1;
         }
         animator = GetComponent<Animator>();
@@ -24,13 +22,12 @@ public class Turtle : MonoBehaviour {
         activa = true;
     }
 
-    // Update is called once per frame
     void Update() {
-        if(transform.position.y < -10) {
+        if (transform.position.y < -10) {
             Destroy(gameObject);
         }
 
-        if( ! activa) {
+        if (!activa) {
             return;
         }
         Vector3 position = transform.position;
@@ -43,64 +40,62 @@ public class Turtle : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        if( ! activa) {
+        if (!activa) {
             return;
         }
-        if(other.gameObject.CompareTag("Player") && IsGrounded()) {
-            //Mario le sacudió a la tortuga desde abajo.
-            //luego la tortuga se para y se da la vuelta
+        if (other.gameObject.CompareTag("Player") && IsGrounded()) {
+            // Mario le sacudió a la tortuga desde abajo.
+            // Luego la tortuga se para y se da la vuelta
 
-            //"Desactivamos" la tortuga
+            // "Desactivamos" la tortuga
             activa = false;
            
-            //y la ponemos del revés
+            // y la ponemos del revés
             animator.SetBool("fliping", true);
-            //Por si se vuelve a poner del derecho, ponemos turning a false
+            // Por si se vuelve a poner del derecho, ponemos turning a false
             animator.SetBool("turning", false);
-            //Le damos un pequeño impulso hacia arriba
+            // Le damos un pequeño impulso hacia arriba
             GetComponent<Rigidbody2D>().velocity = new Vector2(0, 3);
 
-        } else if(other.gameObject.CompareTag("EnemyTeleport")) {
+        } else if (other.gameObject.CompareTag("EnemyTeleport")) {
             Vector3 position = transform.position;
             position.x = -position.x;
             transform.position = position;
-        } else if(other.gameObject.CompareTag("EnemyLift")) {     
-            //Elevamos la tortuga hasta el spanwPoint del lado del que está
-            //obtenemos este punto de espaneo desde el GameManager
-            if(transform.position.x < 0) {
+        } else if (other.gameObject.CompareTag("EnemyLift")) {     
+            // Elevamos la tortuga hasta el spawnPoint del lado del que está
+            // Obtenemos este punto de aparición desde el GameManager
+            if (transform.position.x < 0) {
                 transform.position = GameManager.instance.leftSpawnPoint;
             } else {
                 transform.position = GameManager.instance.rightSpawnPoint;
             }
             ReverseMovement();
-        } else if(other.gameObject.CompareTag("EnemyPipe")) {
-            //Hemos detectado la entrada en uno de los triggers que hay a la
-            //entrada y salida de las tuberias
-            //Cambiamos a tortuga entre las capas EnemiesPipe y Enemies
-            //Si está una en una de ellas, la movemos a la otra
+        } else if (other.gameObject.CompareTag("EnemyPipe")) {
+            // Hemos detectado la entrada en uno de los triggers que hay a la
+            // entrada y salida de las tuberías
+            // Cambiamos la tortuga entre las capas EnemiesPipe y Enemies
+            // Si está en una de ellas, la movemos a la otra
             int layerEnemiesPipe = LayerMask.NameToLayer("EnemiesPipe");
             int layerEnemies = LayerMask.NameToLayer("Enemies");
-            if(gameObject.layer == layerEnemies) {
+            if (gameObject.layer == layerEnemies) {
                 gameObject.layer = layerEnemiesPipe;
             } else {
                 gameObject.layer = layerEnemies;
             }
 
         }
-
     }
 
     void OnCollisionEnter2D(Collision2D other) {
-        
-        if( ! activa) {
-            if(other.gameObject.CompareTag("Player")) {
+        if (!activa) {
+            if (other.gameObject.CompareTag("Player")) {
                 Die(other.gameObject.GetComponent<Mario>().Velocity);
             }
             return;
         }
         
-        if(other.gameObject.CompareTag("Enemy")) {
-            //Paramos a la tortuga e iniciamos la animacion de giro
+        if (other.gameObject.CompareTag("Enemy")) {
+            // Paramos a la tortuga e iniciamos la animación de giro
             velocity = Vector3.zero;
             animator.SetBool("turning", true);
         }
@@ -133,7 +128,6 @@ public class Turtle : MonoBehaviour {
             return true;
         }
 
-
         return false;
     }
 
@@ -143,3 +137,4 @@ public class Turtle : MonoBehaviour {
         GetComponent<Rigidbody2D>().velocity = new Vector2(startVelocity.x, 0);
     }
 }
+
